@@ -244,145 +244,26 @@
   </style>
 </head>
 <body>
-  <div class="page">
-    <section class="panel">
-      <h1>My Biodata</h1>
-      <p>Fill in your details, see a live preview, and submit securely to the Python backend.</p>
+<form method=post>
+User ID : <INPUT TYPE= Text id=uid name=UserID> <br>
+Password : <INPUT TYPE=PASSWORD id=pud > <br>
+Address    : <TEXTAREA id=Address rows=7 cols=10> 
+</TEXTAREA>
+Gender : <INPUT TYPE=RADIO id=Gender1 name=G1> M <br>
+                 <INPUT TYPE=RADIO id=Gender2 name=G2> F <br>
 
-      <form id="biodata-form" action="/submit" method="post" class="form-grid">
-        <div>
-          <label for="user-id">User ID</label>
-          <input id="user-id" name="user_id" type="text" placeholder="Enter your user id" required />
-        </div>
+Hobby : <INPUT TYPE=CHECKBOX id= Hobby1 name=H1> Games <br>
+               <INPUT TYPE=CHECKBOX id= Hobby2 name=H2> Reading <br>
+               <INPUT TYPE=CHECKBOX id= Hobby3 name=H1>  Sports <br>
 
-        <div>
-          <label for="password">Password</label>
-          <input id="password" name="password" type="password" placeholder="Enter a secure password" required />
-        </div>
+<a href="https://www.google.com/search?q=big+dawgs&oq=big+dawgs&gs_lcrp=EgZjaHJvbWUqBwgAEAAYjwIyBwgAEAAYjwIyDAgBEC4YJxiABBiKBTIMCAIQIxgnGIAEGIoFMgoIAxAAGLEDGIAEMgcIBBAAGIAEMgoIBRAAGLEDGIAEMgoIBhAAGLEDGIAEMgoIBxAAGLEDGIAEMgoICBAAGLEDGIAEMgcICRAAGIAE0gEKMTA3MDZqMWoxNagCCLACAQ&sourceid=chrome&ie=UTF-8">    Click to see this webpage   </a> <br>
 
-        <div>
-          <label for="address">Address</label>
-          <textarea id="address" name="address" rows="5" placeholder="Street, city, state..." required></textarea>
-        </div>
+ <INPUT TYPE=Submit> 
+ <INPUT TYPE=Reset>
+              
 
-        <div class="choice-group">
-          <label>Gender</label>
-          <label class="choice-item"><input type="radio" name="gender" value="Male" checked /> Male</label>
-          <label class="choice-item"><input type="radio" name="gender" value="Female" /> Female</label>
-          <label class="choice-item"><input type="radio" name="gender" value="Other" /> Other</label>
-        </div>
-
-        <div class="choice-group">
-          <label>Hobbies</label>
-          <label class="choice-item"><input type="checkbox" name="hobbies" value="Games" /> Games</label>
-          <label class="choice-item"><input type="checkbox" name="hobbies" value="Reading" /> Reading</label>
-          <label class="choice-item"><input type="checkbox" name="hobbies" value="Sports" /> Sports</label>
-          <label class="choice-item"><input type="checkbox" name="hobbies" value="Music" /> Music</label>
-          <label class="choice-item"><input type="checkbox" name="hobbies" value="Traveling" /> Traveling</label>
-        </div>
-
-        <div class="buttons">
-          <button type="submit">Send to Python</button>
-          <button type="button" class="secondary" id="reset-btn">Reset</button>
-        </div>
-
-        <div id="form-message" class="message hidden"></div>
-      </form>
-    </section>
-
-    <aside class="panel preview-card">
-      <h2>Preview</h2>
-      <p class="subtitle-2">Watch the biodata card update as you type.</p>
-      <ul class="preview-list">
-        <li class="preview-item"><span>User ID</span><strong id="preview-user">-</strong></li>
-        <li class="preview-item"><span>Gender</span><strong id="preview-gender">Male</strong></li>
-        <li class="preview-item"><span>Hobbies</span><strong id="preview-hobbies">Games</strong></li>
-        <li class="preview-item"><span>Address</span><strong id="preview-address">-</strong></li>
-      </ul>
-      <div id="server-response" class="message hidden"></div>
-    </aside>
-  </div>
-
-  <script>
-    const form = document.getElementById('biodata-form');
-    const resetBtn = document.getElementById('reset-btn');
-    const message = document.getElementById('form-message');
-    const responseBox = document.getElementById('server-response');
-    const previewUser = document.getElementById('preview-user');
-    const previewGender = document.getElementById('preview-gender');
-    const previewHobbies = document.getElementById('preview-hobbies');
-    const previewAddress = document.getElementById('preview-address');
-    const userIdInput = document.getElementById('user-id');
-    const addressInput = document.getElementById('address');
-
-    function showMessage(root, text, variant = 'success') {
-      root.textContent = text;
-      root.className = `message ${variant}`;
-      root.classList.remove('hidden');
-    }
-
-    function clearMessage(root) {
-      root.classList.add('hidden');
-      root.textContent = '';
-    }
-
-    function updatePreview() {
-      const formData = new FormData(form);
-      const hobbies = formData.getAll('hobbies');
-
-      previewUser.textContent = formData.get('user_id') || '-';
-      previewGender.textContent = formData.get('gender') || 'Male';
-      previewAddress.textContent = formData.get('address') ? formData.get('address').trim() : '-';
-      previewHobbies.textContent = hobbies.length ? hobbies.join(', ') : 'None';
-    }
-
-    form.addEventListener('input', updatePreview);
-    updatePreview();
-
-    resetBtn.addEventListener('click', () => {
-      form.reset();
-      updatePreview();
-      clearMessage(message);
-      clearMessage(responseBox);
-    });
-
-    form.addEventListener('submit', async (event) => {
-      event.preventDefault();
-      clearMessage(message);
-      clearMessage(responseBox);
-
-      const formData = new FormData(form);
-      const data = {
-        user_id: formData.get('user_id'),
-        password: formData.get('password'),
-        address: formData.get('address'),
-        gender: formData.get('gender'),
-        hobbies: formData.getAll('hobbies'),
-      };
-
-      if (!data.user_id || !data.password || !data.address) {
-        showMessage(message, 'Please fill all required fields before submitting.', 'error');
-        return;
-      }
-
-      try {
-        const response = await fetch('/submit', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(data),
-        });
-        const result = await response.json();
-
-        if (response.ok) {
-          showMessage(message, result.message, 'success');
-          showMessage(responseBox, `Summary: ${result.summary}`);
-        } else {
-          showMessage(message, result.error || 'Submission failed.', 'error');
-        }
-      } catch (error) {
-        showMessage(message, 'Backend unavailable. Run the Python server first.', 'error');
-      }
-    });
-  </script>
+                
+ 
 </body>
+</head>
 </html>

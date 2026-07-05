@@ -1,41 +1,222 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Professional Biodata Form</title>
   <style>
-    body { font-family: Arial, sans-serif; margin: 30px; }
-    form { line-height: 1.8; }
-    .row { margin-bottom: 8px; }
-    .choice { display: inline-block; margin-right: 10px; }
-    label { margin-right: 6px; }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #0f172a, #2563eb, #7c3aed);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      color: #0f172a;
+    }
+    .card {
+      width: 100%;
+      max-width: 700px;
+      background: rgba(255,255,255,0.95);
+      backdrop-filter: blur(12px);
+      border-radius: 22px;
+      box-shadow: 0 20px 45px rgba(15, 23, 42, 0.25);
+      padding: 32px;
+    }
+    h2 {
+      margin-top: 0;
+      margin-bottom: 8px;
+      font-size: 1.9rem;
+      color: #1d4ed8;
+    }
+    .subtitle {
+      margin-bottom: 20px;
+      color: #475569;
+    }
+    .row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-bottom: 16px;
+    }
+    .field {
+      flex: 1;
+      min-width: 220px;
+      display: flex;
+      flex-direction: column;
+    }
+    label {
+      font-weight: 600;
+      margin-bottom: 6px;
+      color: #334155;
+    }
+    input[type="text"], input[type="password"], textarea {
+      width: 100%;
+      padding: 12px 14px;
+      border: 1px solid #cbd5e1;
+      border-radius: 10px;
+      font-size: 1rem;
+      transition: 0.2s ease;
+      outline: none;
+    }
+    input:focus, textarea:focus {
+      border-color: #2563eb;
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.16);
+    }
+    .choices {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 4px;
+    }
+    .choice {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 10px;
+      border-radius: 999px;
+      background: #eff6ff;
+      color: #1d4ed8;
+      font-weight: 500;
+    }
+    .buttons {
+      display: flex;
+      gap: 12px;
+      margin-top: 20px;
+      flex-wrap: wrap;
+    }
+    button {
+      border: none;
+      border-radius: 999px;
+      padding: 12px 20px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(37, 99, 235, 0.2);
+    }
+    .btn-primary {
+      background: linear-gradient(90deg, #2563eb, #4f46e5);
+      color: white;
+    }
+    .btn-secondary {
+      background: #e2e8f0;
+      color: #0f172a;
+    }
+    .message {
+      margin-top: 18px;
+      padding: 12px 14px;
+      border-radius: 10px;
+      display: none;
+      font-weight: 600;
+    }
+    .message.success {
+      display: block;
+      background: #dcfce7;
+      color: #166534;
+    }
+    .message.error {
+      display: block;
+      background: #fee2e2;
+      color: #b91c1c;
+    }
   </style>
 </head>
 <body>
-  <form method="post">
-    <div class="row">
-      User ID: <input type="text" name="userId" size="30">
-    </div>
-    <div class="row">
-      Password: <input type="password" name="password">
-    </div>
-    <div class="row">
-      Address: <input type="text" name="address" size="30">
-    </div>
-    <div class="row">
-      Gender:
-      <label class="choice"><input type="radio" name="gender" value="Male"> Male</label>
-      <label class="choice"><input type="radio" name="gender" value="Female"> Female</label>
-      <label class="choice"><input type="radio" name="gender" value="Other"> Other</label>
-    </div>
-    <div class="row">
-      Hobbies:
-      <label class="choice"><input type="checkbox" name="hobbies" value="Reading"> Reading</label>
-      <label class="choice"><input type="checkbox" name="hobbies" value="Travelling"> Travelling</label>
-      <label class="choice"><input type="checkbox" name="hobbies" value="Sports"> Sports</label>
-    </div>
-    <div class="row">
-      Submit: <input type="submit" name="submit" value="Submit">
-      Reset: <input type="reset" name="reset" value="Reset">
-    </div>
-  </form>
+  <div class="card">
+    <h2>Professional Biodata Form</h2>
+    <p class="subtitle">Create a polished profile with a smooth, modern experience.</p>
+
+    <form id="biodataForm">
+      <div class="row">
+        <div class="field">
+          <label for="userId">User ID</label>
+          <input type="text" id="userId" name="userId" placeholder="Enter your user ID" required />
+        </div>
+        <div class="field">
+          <label for="password">Password</label>
+          <input type="password" id="password" name="password" placeholder="Enter your password" required />
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="field">
+          <label for="address">Address</label>
+          <textarea id="address" name="address" rows="3" placeholder="Enter your address" required></textarea>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="field">
+          <label>Gender</label>
+          <div class="choices">
+            <label class="choice"><input type="radio" name="gender" value="Male" /> Male</label>
+            <label class="choice"><input type="radio" name="gender" value="Female" /> Female</label>
+            <label class="choice"><input type="radio" name="gender" value="Other" /> Other</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="field">
+          <label>Hobbies</label>
+          <div class="choices">
+            <label class="choice"><input type="checkbox" name="hobbies" value="Reading" /> Reading</label>
+            <label class="choice"><input type="checkbox" name="hobbies" value="Travelling" /> Travelling</label>
+            <label class="choice"><input type="checkbox" name="hobbies" value="Sports" /> Sports</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="buttons">
+        <button type="submit" class="btn-primary">Submit</button>
+        <button type="reset" class="btn-secondary">Reset</button>
+      </div>
+
+      <div id="formMessage" class="message"></div>
+    </form>
+  </div>
+
+  <script>
+    const form = document.getElementById('biodataForm');
+    const messageBox = document.getElementById('formMessage');
+
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+
+      const selectedHobbies = [...document.querySelectorAll('input[name="hobbies"]:checked')].map((item) => item.value);
+      const payload = {
+        user_id: document.getElementById('userId').value.trim(),
+        password: document.getElementById('password').value,
+        address: document.getElementById('address').value.trim(),
+        gender: document.querySelector('input[name="gender"]:checked')?.value || '',
+        hobbies: selectedHobbies
+      };
+
+      try {
+        const response = await fetch('/submit', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+
+        const result = await response.json();
+        if (!response.ok) {
+          throw new Error(result.error || 'Submission failed.');
+        }
+
+        messageBox.className = 'message success';
+        messageBox.textContent = result.message || 'Biodata submitted successfully!';
+      } catch (error) {
+        messageBox.className = 'message error';
+        messageBox.textContent = error.message;
+      }
+    });
+  </script>
 </body>
 </html>
